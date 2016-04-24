@@ -54,14 +54,22 @@
 		B1B049C41CCCF0FB0030FF3F /* Calculator2016 */ = {
 			isa = PBXGroup;
 			children = (
-				B1B049C51CCCF0FB0030FF3F /* AppDelegate.swift */,
 				B1B049C71CCCF0FB0030FF3F /* ViewController.swift */,
 				B1B049C91CCCF0FB0030FF3F /* Main.storyboard */,
+				B1B049D71CCCF5670030FF3F /* Supporting Files */,
+			);
+			path = Calculator2016;
+			sourceTree = "<group>";
+		};
+		B1B049D71CCCF5670030FF3F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B1B049C51CCCF0FB0030FF3F /* AppDelegate.swift */,
 				B1B049CC1CCCF0FB0030FF3F /* Assets.xcassets */,
 				B1B049CE1CCCF0FB0030FF3F /* LaunchScreen.storyboard */,
 				B1B049D11CCCF0FB0030FF3F /* Info.plist */,
 			);
-			path = Calculator2016;
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -96,6 +104,7 @@
 				TargetAttributes = {
 					B1B049C11CCCF0FB0030FF3F = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = CAE4XXMP5G;
 					};
 				};
 			};
@@ -251,6 +260,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Calculator2016/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hhugofalkman.Calculator2016;
@@ -262,6 +272,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Calculator2016/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hhugofalkman.Calculator2016;
