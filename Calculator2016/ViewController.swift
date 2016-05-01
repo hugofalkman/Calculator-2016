@@ -19,7 +19,7 @@ class ViewController: UIViewController {
         if userIsTyping {
             let textCurrentlyInDisplay = display.text!
             if (digit != ".") || (textCurrentlyInDisplay.rangeOfString(".") == nil) {
-            display.text = textCurrentlyInDisplay + digit
+                display.text = textCurrentlyInDisplay + digit
             }
         } else {
             display.text = digit
