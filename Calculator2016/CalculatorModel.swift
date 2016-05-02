@@ -22,11 +22,19 @@ class CalculatorModel {
         "π" : Operation.Constant(M_PI),
         "e" : Operation.Constant(M_E),
         "√" : Operation.UnaryOperation(sqrt),
+        "sin" : Operation.UnaryOperation(sin),
         "cos" : Operation.UnaryOperation(cos),
+        "tan" : Operation.UnaryOperation(tan),
+        "asin" : Operation.UnaryOperation(asin),
+        "acos" : Operation.UnaryOperation(acos),
+        "atan" : Operation.UnaryOperation(atan),
+        "eˣ" : Operation.UnaryOperation(exp),
+        "ln" : Operation.UnaryOperation(log),
         "×" : Operation.BinaryOperation({$0 * $1}),
         "÷" : Operation.BinaryOperation({$0 / $1}),
         "+" : Operation.BinaryOperation({$0 + $1}),
         "−" : Operation.BinaryOperation({$0 - $1}),
+        "xʸ" : Operation.BinaryOperation({pow($0, $1)}),
         "=" : Operation.Equals
         ]
     
@@ -44,6 +52,7 @@ class CalculatorModel {
             case .Constant(let value):
                 accumulator = value
             case .UnaryOperation(let function):
+                execPendingBinaryOperation()
                 accumulator = function(accumulator)
             case .BinaryOperation(let function):
                 execPendingBinaryOperation()
