@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var history: UILabel!
+    
     @IBOutlet private weak var display: UILabel!
     
     private var userIsTyping = false
@@ -26,13 +28,23 @@ class ViewController: UIViewController {
         }
         userIsTyping = true
     }
-
+        
+    @IBAction func backspace(sender: UIButton) {
+        if userIsTyping {
+            display.text!.removeAtIndex(display.text!.endIndex.predecessor())
+        }
+        if display.text!.isEmpty {
+            userIsTyping = false
+            displayValue = brain.result
+        }
+    }
+    
     private var displayValue: Double {
         get {
             return Double(display.text!)!
         }
         set {
-            display.text = String(newValue)
+            display.text = String(format: "%g", newValue)
         }
     }
     
@@ -55,6 +67,7 @@ class ViewController: UIViewController {
     private var brain = CalculatorModel()
     
     @IBAction private func performOperation(sender: UIButton) {
+        
         if userIsTyping {
             brain.setOperand(displayValue)
             userIsTyping = false
@@ -63,6 +76,21 @@ class ViewController: UIViewController {
             brain.performOperation(mathSymbol)
         }
         displayValue = brain.result
+        history.text = brain.description
+        if history.text == " " {return}
+        if brain.isPartialResult {
+            history.text! += "..."
+        } else {
+            history.text! += " ="
+        }
+    }
+    
+    @IBAction func setM(sender: UIButton) {
+        
+    }
+ 
+    @IBAction func pushM(sender: UIButton) {
+        
     }
     
     

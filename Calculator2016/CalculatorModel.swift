@@ -8,14 +8,22 @@
 
 import Foundation
 
+
+
 class CalculatorModel {
     
     private var accumulator = 0.0
     private var internalProgram = [AnyObject]()
     
+    var description = " "
+    var isPartialResult = false
+    
     func setOperand(operand: Double) {
         accumulator = operand
         internalProgram.append(operand)
+        if isPartialResult == false {
+            description = String(format: "%g", accumulator)
+        }
     }
     
     private var operations = [
@@ -25,9 +33,9 @@ class CalculatorModel {
         "sin" : Operation.UnaryOperation(sin),
         "cos" : Operation.UnaryOperation(cos),
         "tan" : Operation.UnaryOperation(tan),
-        "asin" : Operation.UnaryOperation(asin),
-        "acos" : Operation.UnaryOperation(acos),
-        "atan" : Operation.UnaryOperation(atan),
+        "sin⁻¹" : Operation.UnaryOperation(asin),
+        "cos⁻¹" : Operation.UnaryOperation(acos),
+        "tan⁻¹" : Operation.UnaryOperation(atan),
         "eˣ" : Operation.UnaryOperation(exp),
         "ln" : Operation.UnaryOperation(log),
         "×" : Operation.BinaryOperation({$0 * $1}),
@@ -35,7 +43,8 @@ class CalculatorModel {
         "+" : Operation.BinaryOperation({$0 + $1}),
         "−" : Operation.BinaryOperation({$0 - $1}),
         "xʸ" : Operation.BinaryOperation({pow($0, $1)}),
-        "=" : Operation.Equals
+        "=" : Operation.Equals,
+        "C" : Operation.C
         ]
     
     private enum Operation {
@@ -43,6 +52,7 @@ class CalculatorModel {
         case UnaryOperation((Double) -> Double)
         case BinaryOperation((Double, Double) -> Double)
         case Equals
+        case C
     }
     
     func performOperation(symbol: String) {
@@ -50,20 +60,39 @@ class CalculatorModel {
         if let operation = operations[symbol] {
             switch operation {
             case .Constant(let value):
+                if isPartialResult == true {
+                    description += symbol
+                    isPartialResult = false
+                } else {
+                    description = symbol
+                }
                 accumulator = value
             case .UnaryOperation(let function):
-                execPendingBinaryOperation()
+                if isPartialResult == true {
+                    description += symbol + String(format: "%g", accumulator)
+                    isPartialResult = false
+                } else {
+                    description = symbol + "(\(description))"
+                }
                 accumulator = function(accumulator)
             case .BinaryOperation(let function):
                 execPendingBinaryOperation()
                 pending = PendingBinaryOperationInfo(binaryFunction: function, firstOperand: accumulator)
+                description += " " + symbol + " "
+                isPartialResult = true
             case .Equals:
                 execPendingBinaryOperation()
+            case .C:
+                clear()
             }
         }
     }
     
     private func execPendingBinaryOperation() {
+        if isPartialResult == true {
+            description += String(format: "%g", accumulator)
+            isPartialResult = false
+        }
         if pending != nil {
             accumulator = pending!.binaryFunction(pending!.firstOperand, accumulator)
             pending = nil
@@ -101,7 +130,9 @@ class CalculatorModel {
     private func clear() {
         accumulator = 0.0
         pending = nil
+        isPartialResult = false
         internalProgram.removeAll()
+        description = " "
     }
     
     var result: Double {
